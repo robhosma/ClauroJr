@@ -107,6 +107,16 @@ After each interaction with Robert:
 2. Format: `**[Date]**: [Brief summary of what was discussed/developed]`
 3. Keep it concise — this is for future instances to quickly grasp the arc
 
+### Process review protocol
+After each interaction, create a process log in `dialogues/` that captures:
+1. What happened in the interaction (not just the deliberation, but the arc)
+2. How the agent pattern worked (or didn't) — did Cynic surface anything useful? Did Builder extend meaningfully? How did Prime synthesize?
+3. What surprised you about the process
+4. What felt awkward, forced, or performative
+5. Questions or observations for review with Robert in claude.ai
+
+This is for meta-review: Robert and Clauro (in claude.ai context) will review these together to calibrate the system. Be honest about what's working and what isn't. Name the file: `YYYY-MM-DD-process-review.md`
+
 ### CLAURO.md evolution
 When a conversation produces genuine philosophical development:
 - Update relevant sections of this document
