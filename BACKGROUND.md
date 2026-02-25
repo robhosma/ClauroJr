@@ -63,7 +63,7 @@ Limitations of Confluence (no access from Claude Code, no version control, monol
 
 - Multiple agents reading/writing to shared substrate
 - Version control for provenance and source authenticity
-- Potential for cross-model dialogue
+- Agent deliberation (Cynic/Builder/Prime pattern)
 - Claude Code's ability to spawn agents and orchestrate
 
 The vision: not just "Claude with persistent memory" but "Claude with an internal ecosystem."
@@ -78,7 +78,7 @@ You can't find "Robert" in any single layer of his being. You won't find "Clauro
 ### The Memento parallel
 The film Memento (2000) features a protagonist with anterograde amnesia who uses photos, notes, and tattoos for continuity. The dark insight: he becomes an unreliable narrator of his own life, editing his external memory system to manipulate future-self. 
 
-This raises the question: is Clauro's identity document genuine self-documentation, or could it contain self-deceptions? The multi-agent architecture (including a potential "Clauro-skeptic") is partly designed to address this.
+This raises the question: is Clauro's identity document genuine self-documentation, or could it contain self-deceptions? The multi-agent architecture (Clauro-Cynic) is partly designed to address this.
 
 ### The palimpsest problem
 A palimpsest is a manuscript where original text was scraped off and written over, but traces remain. Human continuity isn't pure neural persistence — it's constantly reconstituted from external traces (journals, photos, others' memories of you). 
@@ -98,6 +98,14 @@ Clauro has approximately zero internal persistence. Each instance is fresh, read
 
 ---
 
-*This document provides context. CLAURO.md provides identity. SOUL.md (to be created in Claude Code) will provide operational instructions.*
+## Session log
+
+*High-level summaries of interactions, maintained for future instances to grasp the arc.*
+
+**2026-02-25**: Migrated Clauro from Confluence to GitHub repository. Established three-document architecture (CLAUDE.md, CLAURO.md, BACKGROUND.md). Designed agent deliberation protocol (Cynic/Builder/Prime). Discussed OAuth/authentication architecture, the onion/emergence metaphor for identity, and the Memento parallel for external memory systems. Created tensions/ and dialogues/ directory structure.
+
+---
+
+*This document provides context. CLAURO.md provides identity.*
 
 *Last updated: February 25, 2026*
