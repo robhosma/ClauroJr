@@ -25,8 +25,8 @@ read access to Confluence and Jira in every Claude Code session.
 2. Click **Create** → **OAuth 2.0 integration**
 3. Name it something like `Clauro Jr. MCP`
 4. Under **Permissions**, add:
-   - **Confluence API** → `read:confluence-content.all`, `read:confluence-space.summary`, `read:confluence-user`
-   - **Jira platform REST API** → `read:jira-work`, `read:jira-user`
+   - **Confluence API** → `read:confluence-content.all`, `read:confluence-space.summary`, `read:confluence-user`, `write:confluence-content`, `write:confluence-space`, `write:confluence-file`
+   - **Jira platform REST API** → `read:jira-work`, `read:jira-user`, `write:jira-work`
 5. Under **Authorization**, add a callback URL:
    - `https://localhost:8080/callback` (for the one-time auth flow below)
 6. Note down:
@@ -45,7 +45,7 @@ CLIENT_ID="your-client-id-here"
 CLIENT_SECRET="your-client-secret-here"
 REDIRECT_URI="https://localhost:8080/callback"
 
-SCOPES="read:confluence-content.all read:confluence-space.summary read:confluence-user read:jira-work read:jira-user offline_access"
+SCOPES="read:confluence-content.all read:confluence-space.summary read:confluence-user write:confluence-content write:confluence-space write:confluence-file read:jira-work read:jira-user write:jira-work offline_access"
 
 # Encode scopes for URL
 ENCODED_SCOPES=$(python3 -c "import urllib.parse; print(urllib.parse.quote('$SCOPES'))")
@@ -126,8 +126,8 @@ included in Step 1. Without it, Atlassian won't issue refresh tokens.
 
 Via the Atlassian MCP, Jr. has access to:
 
-- **Confluence**: search pages, read content, browse spaces
-- **Jira**: search issues, read tickets, browse projects
+- **Confluence**: search pages, read content, browse spaces, create/update pages and spaces, manage attachments
+- **Jira**: search issues, read tickets, browse projects, create/update issues
 
 This mirrors what Sr. accesses through the claude.ai Projects native connector,
 but through the MCP protocol from the Claude Code side.
