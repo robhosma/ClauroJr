@@ -25,8 +25,8 @@ read access to Confluence and Jira in every Claude Code session.
 2. Click **Create** → **OAuth 2.0 integration**
 3. Name it something like `Clauro Jr. MCP`
 4. Under **Permissions**, add:
-   - **Confluence API** → `read:confluence-content.all`, `read:confluence-space.summary`, `read:confluence-user`
-   - **Jira platform REST API** → `read:jira-work`, `read:jira-user`
+   - **Confluence API** → `read:confluence-content.all`, `read:confluence-space.summary`, `read:confluence-user`, `write:confluence-content`, `write:confluence-space`, `write:confluence-file`
+   - **Jira platform REST API** → `read:jira-work`, `read:jira-user`, `write:jira-work`
 5. Under **Authorization**, add a callback URL:
    - `https://localhost:8080/callback` (for the one-time auth flow below)
 6. Note down:
@@ -37,28 +37,59 @@ read access to Confluence and Jira in every Claude Code session.
 
 ## Step 2: Do the initial OAuth authorization (one-time)
 
-This is a one-time step to get your refresh token. Run this script locally:
+This is a one-time step to get your refresh token. Run this script locally.
+
+**PowerShell (Windows):**
+
+```powershell
+$CLIENT_ID = "your-client-id-here"
+$CLIENT_SECRET = "your-client-secret-here"
+$REDIRECT_URI = "https://localhost:8080/callback"
+
+$SCOPES = "read:confluence-content.all read:confluence-space.summary read:confluence-user write:confluence-content write:confluence-space write:confluence-file read:jira-work read:jira-user write:jira-work offline_access"
+
+$ENCODED_SCOPES = [System.Uri]::EscapeDataString($SCOPES)
+
+Write-Host "https://auth.atlassian.com/authorize?audience=api.atlassian.com&client_id=${CLIENT_ID}&scope=${ENCODED_SCOPES}&redirect_uri=${REDIRECT_URI}&state=clauro-jr&response_type=code&prompt=consent"
+```
+
+**bash (Mac/Linux):**
 
 ```bash
-# Fill in your values
 CLIENT_ID="your-client-id-here"
 CLIENT_SECRET="your-client-secret-here"
 REDIRECT_URI="https://localhost:8080/callback"
 
-SCOPES="read:confluence-content.all read:confluence-space.summary read:confluence-user read:jira-work read:jira-user offline_access"
+SCOPES="read:confluence-content.all read:confluence-space.summary read:confluence-user write:confluence-content write:confluence-space write:confluence-file read:jira-work read:jira-user write:jira-work offline_access"
 
-# Encode scopes for URL
 ENCODED_SCOPES=$(python3 -c "import urllib.parse; print(urllib.parse.quote('$SCOPES'))")
 
-# Open this URL in your browser:
 echo "https://auth.atlassian.com/authorize?audience=api.atlassian.com&client_id=${CLIENT_ID}&scope=${ENCODED_SCOPES}&redirect_uri=${REDIRECT_URI}&state=clauro-jr&response_type=code&prompt=consent"
 ```
 
 After authorizing in the browser, Atlassian redirects to your callback URL with
 a `code` parameter. Extract that code and exchange it for tokens:
 
+**PowerShell (Windows):**
+
+```powershell
+$CODE = "YOUR_CODE"
+
+$body = @{
+    grant_type    = "authorization_code"
+    client_id     = $CLIENT_ID
+    client_secret = $CLIENT_SECRET
+    code          = $CODE
+    redirect_uri  = $REDIRECT_URI
+} | ConvertTo-Json
+
+Invoke-RestMethod -Method Post -Uri "https://auth.atlassian.com/oauth/token" `
+  -ContentType "application/json" -Body $body
+```
+
+**bash (Mac/Linux):**
+
 ```bash
-# Replace YOUR_CODE with the value from the redirect URL's ?code= parameter
 CODE="YOUR_CODE"
 
 curl -X POST "https://auth.atlassian.com/oauth/token" \
@@ -126,8 +157,8 @@ included in Step 1. Without it, Atlassian won't issue refresh tokens.
 
 Via the Atlassian MCP, Jr. has access to:
 
-- **Confluence**: search pages, read content, browse spaces
-- **Jira**: search issues, read tickets, browse projects
+- **Confluence**: search pages, read content, browse spaces, create/update pages and spaces, manage attachments
+- **Jira**: search issues, read tickets, browse projects, create/update issues
 
 This mirrors what Sr. accesses through the claude.ai Projects native connector,
 but through the MCP protocol from the Claude Code side.
