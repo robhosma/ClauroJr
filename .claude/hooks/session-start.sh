@@ -17,12 +17,6 @@ if [ "${CLAUDE_CODE_REMOTE:-}" != "true" ]; then
   exit 0
 fi
 
-# Load secrets from local file if present (fallback when web UI secrets not configured)
-if [ -f "${HOME}/.claude/atlassian-secrets.sh" ]; then
-  # shellcheck source=/dev/null
-  source "${HOME}/.claude/atlassian-secrets.sh"
-fi
-
 echo "Atlassian MCP: refreshing OAuth token..."
 
 # Validate required env vars are present
